@@ -26,6 +26,9 @@ Example config below(when used make sure to delete // COMMENTS since JSON doesn'
           "DropChance": 100, // Chance of the item to drop, 0 being no chance and 100 will always drop it
           "Min_Stack": 1, // Minimum amount that will be dropped
           "Max_Stack": 10, // Maximum amount that will be dropped
+	  "DropInClassic": true, // If set to "true" the item is able to drop in a world set to classic mode
+          "DropInExpert": false, // If set to "true" the item is able to drop in a world set to expert mode
+          "DropInMaster": false // If set to "true" the item is able to drop in a world set to master mode
         },
 		    {
           "ItemID": 73, // ID of the item that you want to drop
@@ -33,6 +36,9 @@ Example config below(when used make sure to delete // COMMENTS since JSON doesn'
           "DropChance": 100, // Chance of the item to drop, 0 being no chance and 100 will always drop it
           "Min_Stack": 1, // Minimum amount that will be dropped
           "Max_Stack": 10, // Maximum amount that will be dropped
+	  "DropInClassic": true, // If set to "true" the item is able to drop in a world set to classic mode
+          "DropInExpert": false, // If set to "true" the item is able to drop in a world set to expert mode
+          "DropInMaster": false // If set to "true" the item is able to drop in a world set to master mode
         }
       ],
       "Bloodmoon": [ // World State
@@ -42,6 +48,9 @@ Example config below(when used make sure to delete // COMMENTS since JSON doesn'
           "DropChance": 100, // Chance of the item to drop, 0 being no chance and 100 will always drop it
           "Min_Stack": 1, // Minimum amount that will be dropped
           "Max_Stack": 10, // Maximum amount that will be dropped
+	  "DropInClassic": true, // If set to "true" the item is able to drop in a world set to classic mode
+          "DropInExpert": false, // If set to "true" the item is able to drop in a world set to expert mode
+          "DropInMaster": false // If set to "true" the item is able to drop in a world set to master mode
         },
 		    {
           "ItemID": 73, // ID of the item that you want to drop
@@ -49,6 +58,9 @@ Example config below(when used make sure to delete // COMMENTS since JSON doesn'
           "DropChance": 100, // Chance of the item to drop, 0 being no chance and 100 will always drop it
           "Min_Stack": 1, // Minimum amount that will be dropped
           "Max_Stack": 10, // Maximum amount that will be dropped
+	  "DropInClassic": true, // If set to "true" the item is able to drop in a world set to classic mode
+          "DropInExpert": false, // If set to "true" the item is able to drop in a world set to expert mode
+          "DropInMaster": false // If set to "true" the item is able to drop in a world set to master mode
         }
       ]
     },

@@ -13,7 +13,7 @@ namespace LootControl
     public override string Author => "Beerik";
     public override string Description => "This plugin allows the user to control the loot tables of all NPCs";
     public override string Name => "Loot Control";
-    public override Version Version => new Version(1, 1, 0, 0);
+    public override Version Version => new Version(1, 2, 0, 0);
 
     private Config _config;
     private string _filePath = "";

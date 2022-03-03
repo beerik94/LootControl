@@ -48,256 +48,146 @@ namespace LootControl
     private void OnNPCKilled(NpcKilledEventArgs eventArgs)
     {
 #if DEBUG
-      Console.WriteLine("LootControl - OnNPCKilled: NPC ID: {0} - NPCArrayIndex: {1} - NPCPos: {2},{3}", eventArgs.npc.netID,
+      Console.WriteLine("LootControl - OnNPCKilled: NPC ID: {0} - NPCArrayIndex: {1} - NPCPos: {2},{3}",
+        eventArgs.npc.netID,
         eventArgs.npc.whoAmI, eventArgs.npc.position.X, eventArgs.npc.position.Y);
 #endif
 
       LootTable outTable;
-      var random = new Random();
+      Random random = new Random();
       if (_config.NPCLootTables.TryGetValue(eventArgs.npc.netID, out outTable))
       {
         if (Main.bloodMoon && outTable.NPCLootEntries.ContainsKey(WorldState.Bloodmoon))
-          foreach (var lootItem in outTable.NPCLootEntries[WorldState.Bloodmoon])
-            if (lootItem.AlwaysDrop)
+        {
+          foreach (Loot lootItem in outTable.NPCLootEntries[WorldState.Bloodmoon])
+          {
+            int randomChance = random.Next(0, 100);
+            if (lootItem.DropChance > randomChance)
             {
-              var randomChance = random.Next(0, 100);
-              if (lootItem.DropChance > randomChance)
-              {
-                var stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
-                eventArgs.npc.DropItemInstanced(eventArgs.npc.position, eventArgs.npc.Size, lootItem.ItemID, stack);
-                
+              int stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
+              Item.NewItem(eventArgs.npc.GetItemSource_Loot(), eventArgs.npc.position, eventArgs.npc.Size,
+                lootItem.ItemID, stack, false, lootItem.PrefixID);
+
 #if DEBUG
-                Console.WriteLine("LootControl - OnNPCKilled: BloodmoonDrop ItemID:{0} - Amount:{1} - (X:{2}, Y:{3})",
-                  lootItem.ItemID, stack, eventArgs.npc.position.X, eventArgs.npc.position.Y);
+              Console.WriteLine(
+                "LootControl - OnNPCKilled: BloodmoonDrop ItemID:{0} - Prefix: {1} - Amount:{2} - (X:{3}, Y:{4})",
+                lootItem.ItemID, lootItem.PrefixID, stack, eventArgs.npc.position.X, eventArgs.npc.position.Y);
 #endif
-              }
             }
+          }
+        }
 
         if (Main.eclipse && outTable.NPCLootEntries.ContainsKey(WorldState.Eclipse))
-          foreach (var lootItem in outTable.NPCLootEntries[WorldState.Eclipse])
-            if (lootItem.AlwaysDrop)
+        {
+          foreach (Loot lootItem in outTable.NPCLootEntries[WorldState.Eclipse])
+          {
+            int randomChance = random.Next(0, 100);
+            if (lootItem.DropChance > randomChance)
             {
-              var randomChance = random.Next(0, 100);
-              if (lootItem.DropChance > randomChance)
-              {
-                var stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
-                eventArgs.npc.DropItemInstanced(eventArgs.npc.position, eventArgs.npc.Size, lootItem.ItemID, stack);
-                
+              int stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
+              Item.NewItem(eventArgs.npc.GetItemSource_Loot(), eventArgs.npc.position, eventArgs.npc.Size,
+                lootItem.ItemID, stack, false, lootItem.PrefixID);
+
 #if DEBUG
-                Console.WriteLine("LootControl - OnNPCKilled: EclipseDrop ItemID:{0} - Amount:{1} - (X:{2}, Y:{3})",
-                  lootItem.ItemID, stack, eventArgs.npc.position.X, eventArgs.npc.position.Y);
+              Console.WriteLine(
+                "LootControl - OnNPCKilled: EclipseDrop ItemID:{0} - Prefix: {1} - Amount:{2} - (X:{3}, Y:{4})",
+                lootItem.ItemID, lootItem.PrefixID, stack, eventArgs.npc.position.X, eventArgs.npc.position.Y);
 #endif
-              }
             }
+          }
+        }
 
         if (Main.moonPhase == 0 && !Main.dayTime && outTable.NPCLootEntries.ContainsKey(WorldState.Fullmoon))
-          foreach (var lootItem in outTable.NPCLootEntries[WorldState.Fullmoon])
-            if (lootItem.AlwaysDrop)
+        {
+          foreach (Loot lootItem in outTable.NPCLootEntries[WorldState.Fullmoon])
+          {
+            int randomChance = random.Next(0, 100);
+            if (lootItem.DropChance > randomChance)
             {
-              var randomChance = random.Next(0, 100);
-              if (lootItem.DropChance > randomChance)
-              {
-                var stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
-                eventArgs.npc.DropItemInstanced(eventArgs.npc.position, eventArgs.npc.Size, lootItem.ItemID, stack);
-                
+              int stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
+              Item.NewItem(eventArgs.npc.GetItemSource_Loot(), eventArgs.npc.position, eventArgs.npc.Size,
+                lootItem.ItemID, stack, false, lootItem.PrefixID);
+
 #if DEBUG
-                Console.WriteLine("LootControl - OnNPCKilled: FullmoonDrop ItemID:{0} - Amount:{1} - (X:{2}, Y:{3})",
-                  lootItem.ItemID, stack, eventArgs.npc.position.X, eventArgs.npc.position.Y);
+              Console.WriteLine(
+                "LootControl - OnNPCKilled: FullmoonDrop ItemID:{0} - Prefix: {1} - Amount:{2} - (X:{3}, Y:{4})",
+                lootItem.ItemID, lootItem.PrefixID, stack, eventArgs.npc.position.X, eventArgs.npc.position.Y);
 #endif
-              }
             }
+          }
+        }
 
         if (!Main.dayTime && outTable.NPCLootEntries.ContainsKey(WorldState.Night))
-          foreach (var lootItem in outTable.NPCLootEntries[WorldState.Night])
-            if (lootItem.AlwaysDrop)
+        {
+          foreach (Loot lootItem in outTable.NPCLootEntries[WorldState.Night])
+          {
+            int randomChance = random.Next(0, 100);
+            if (lootItem.DropChance > randomChance)
             {
-              var randomChance = random.Next(0, 100);
-              if (lootItem.DropChance > randomChance)
-              {
-                var stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
-                eventArgs.npc.DropItemInstanced(eventArgs.npc.position, eventArgs.npc.Size, lootItem.ItemID, stack);
-                
+              int stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
+              Item.NewItem(eventArgs.npc.GetItemSource_Loot(), eventArgs.npc.position, eventArgs.npc.Size,
+                lootItem.ItemID, stack, false, lootItem.PrefixID);
+
 #if DEBUG
-                Console.WriteLine("LootControl - OnNPCKilled: NightDrop ItemID:{0} - Amount:{1} - (X:{2}, Y:{3})",
-                  lootItem.ItemID, stack, eventArgs.npc.position.X, eventArgs.npc.position.Y);
+              Console.WriteLine(
+                "LootControl - OnNPCKilled: NightDrop ItemID:{0} - Prefix: {1} - Amount:{2} - (X:{3}, Y:{4})",
+                lootItem.ItemID, lootItem.PrefixID, stack, eventArgs.npc.position.X, eventArgs.npc.position.Y);
 #endif
-              }
             }
+          }
+        }
 
         if (Main.dayTime && outTable.NPCLootEntries.ContainsKey(WorldState.Day))
-          foreach (var lootItem in outTable.NPCLootEntries[WorldState.Day])
-            if (lootItem.AlwaysDrop)
+        {
+          foreach (Loot lootItem in outTable.NPCLootEntries[WorldState.Day])
+          {
+            int randomChance = random.Next(0, 100);
+            if (lootItem.DropChance > randomChance)
             {
-              var randomChance = random.Next(0, 100);
-              if (lootItem.DropChance > randomChance)
-              {
-                var stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
-                eventArgs.npc.DropItemInstanced(eventArgs.npc.position, eventArgs.npc.Size, lootItem.ItemID, stack);
-                
-#if DEBUG
-                Console.WriteLine("LootControl - OnNPCKilled: DayDrop ItemID:{0} - Amount:{1} - (X:{2}, Y:{3})",
-                  lootItem.ItemID, stack, eventArgs.npc.position.X, eventArgs.npc.position.Y);
-#endif
-              }
+              int stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
+              Item.NewItem(eventArgs.npc.GetItemSource_Loot(), eventArgs.npc.position, eventArgs.npc.Size,
+                lootItem.ItemID, stack, false, lootItem.PrefixID);
+
+  #if DEBUG
+              Console.WriteLine(
+                "LootControl - OnNPCKilled: DayDrop ItemID:{0} - Prefix: {1} - Amount:{2} - (X:{3}, Y:{4})",
+                lootItem.ItemID, lootItem.PrefixID, stack, eventArgs.npc.position.X, eventArgs.npc.position.Y);
+  #endif
             }
+          }
+        }
 
         if (outTable.NPCLootEntries.ContainsKey(WorldState.Normal))
-          foreach (var lootItem in outTable.NPCLootEntries[WorldState.Normal])
-            if (lootItem.AlwaysDrop)
+        {
+          foreach (Loot lootItem in outTable.NPCLootEntries[WorldState.Normal])
+          {
+            int randomChance = random.Next(0, 100);
+            if (lootItem.DropChance > randomChance)
             {
-              var randomChance = random.Next(0, 100);
-              if (lootItem.DropChance > randomChance)
-              {
-                var stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
-                eventArgs.npc.DropItemInstanced(eventArgs.npc.position, eventArgs.npc.Size, lootItem.ItemID, stack);
-                
+              int stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
+              Item.NewItem(eventArgs.npc.GetItemSource_Loot(), eventArgs.npc.position, eventArgs.npc.Size,
+                lootItem.ItemID, stack, false, lootItem.PrefixID);
+
 #if DEBUG
-                Console.WriteLine("LootControl - OnNPCKilled: NormalDrop ItemID:{0} - Amount:{1} - (X:{2}, Y:{3})",
-                  lootItem.ItemID, stack, eventArgs.npc.position.X, eventArgs.npc.position.Y);
+              Console.WriteLine(
+                "LootControl - OnNPCKilled: NormalDrop ItemID:{0} - Prefix: {1} - Amount:{2} - (X:{3}, Y:{4})",
+                lootItem.ItemID, lootItem.PrefixID, stack, eventArgs.npc.position.X, eventArgs.npc.position.Y);
 #endif
-              }
             }
+          }
+        }
       }
     }
 
     private void OnNPCLootDrop(NpcLootDropEventArgs eventArgs)
     {
-#if DEBUG
-      Console.WriteLine("LootControl - OnNPCLootDrop: NPC ID: {0} - NPCArrayIndex: {1} - NPCPos: {2},{3} - DroppedItem: {4}",
-        eventArgs.NpcId, eventArgs.NpcArrayIndex, eventArgs.Position.X, eventArgs.Position.Y, eventArgs.ItemId);
-#endif
-
       LootTable outTable;
-      var random = new Random();
       if (_config.NPCLootTables.TryGetValue(eventArgs.NpcId, out outTable))
       {
-        if (Main.bloodMoon && outTable.NPCLootEntries.ContainsKey(WorldState.Bloodmoon))
-          foreach (var lootItem in outTable.NPCLootEntries[WorldState.Bloodmoon])
-            if (!lootItem.AlwaysDrop || lootItem.DoubleDrop)
-            {
-              var randomChance = random.Next(0, 100);
-              if (lootItem.DropChance > randomChance)
-              {
-                var newItem = TShock.Utils.GetItemById(lootItem.ItemID);
-                var stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
-                Item.NewItem(eventArgs.Source, eventArgs.Position, newItem.width, newItem.height, lootItem.ItemID,
-                  stack, eventArgs.Broadcast, lootItem.PrefixID);
-
-#if DEBUG
-                Console.WriteLine("LootControl - OnNPCLootDrop: BloodmoonDrop ItemID:{0} - Amount:{1} - (X:{2}, Y:{3})",
-                  lootItem.ItemID, stack, eventArgs.Position.X, eventArgs.Position.Y);
-#endif
-                
-                eventArgs.Handled = true;
-              }
-            }
-
-        if (Main.eclipse && outTable.NPCLootEntries.ContainsKey(WorldState.Eclipse))
-          foreach (var lootItem in outTable.NPCLootEntries[WorldState.Eclipse])
-            if (!lootItem.AlwaysDrop || lootItem.DoubleDrop)
-            {
-              var randomChance = random.Next(0, 100);
-              if (lootItem.DropChance > randomChance)
-              {
-                var newItem = TShock.Utils.GetItemById(lootItem.ItemID);
-                var stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
-                Item.NewItem(eventArgs.Source, eventArgs.Position, newItem.width, newItem.height, lootItem.ItemID,
-                  stack, eventArgs.Broadcast, lootItem.PrefixID);
-
-#if DEBUG
-                Console.WriteLine("LootControl - OnNPCLootDrop: EclipseDrop ItemID:{0} - Amount:{1} - (X:{2}, Y:{3})",
-                  lootItem.ItemID, stack, eventArgs.Position.X, eventArgs.Position.Y);
-#endif
-                
-                eventArgs.Handled = true;
-              }
-            }
-
-        if (Main.moonPhase == 0 && !Main.dayTime && outTable.NPCLootEntries.ContainsKey(WorldState.Fullmoon))
-          foreach (var lootItem in outTable.NPCLootEntries[WorldState.Fullmoon])
-            if (!lootItem.AlwaysDrop || lootItem.DoubleDrop)
-            {
-              var randomChance = random.Next(0, 100);
-              if (lootItem.DropChance > randomChance)
-              {
-                var newItem = TShock.Utils.GetItemById(lootItem.ItemID);
-                var stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
-                Item.NewItem(eventArgs.Source, eventArgs.Position, newItem.width, newItem.height, lootItem.ItemID,
-                  stack, eventArgs.Broadcast, lootItem.PrefixID);
-
-#if DEBUG
-                Console.WriteLine("LootControl - OnNPCLootDrop: FullmoonDrop ItemID:{0} - Amount:{1} - (X:{2}, Y:{3})",
-                  lootItem.ItemID, stack, eventArgs.Position.X, eventArgs.Position.Y);
-#endif
-                
-                eventArgs.Handled = true;
-              }
-            }
-
-        if (!Main.dayTime && outTable.NPCLootEntries.ContainsKey(WorldState.Night))
-          foreach (var lootItem in outTable.NPCLootEntries[WorldState.Night])
-            if (!lootItem.AlwaysDrop || lootItem.DoubleDrop)
-            {
-              var randomChance = random.Next(0, 100);
-              if (lootItem.DropChance > randomChance)
-              {
-                var newItem = TShock.Utils.GetItemById(lootItem.ItemID);
-                var stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
-                Item.NewItem(eventArgs.Source, eventArgs.Position, newItem.width, newItem.height, lootItem.ItemID,
-                  stack, eventArgs.Broadcast, lootItem.PrefixID);
-
-#if DEBUG
-                Console.WriteLine("LootControl - OnNPCLootDrop: NightDrop ItemID:{0} - Amount:{1} - (X:{2}, Y:{3})",
-                  lootItem.ItemID, stack, eventArgs.Position.X, eventArgs.Position.Y);
-#endif
-                
-                eventArgs.Handled = true;
-              }
-            }
-
-        if (Main.dayTime && outTable.NPCLootEntries.ContainsKey(WorldState.Day))
-          foreach (var lootItem in outTable.NPCLootEntries[WorldState.Day])
-            if (!lootItem.AlwaysDrop || lootItem.DoubleDrop)
-            {
-              var randomChance = random.Next(0, 100);
-              if (lootItem.DropChance > randomChance)
-              {
-                var newItem = TShock.Utils.GetItemById(lootItem.ItemID);
-                var stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
-                Item.NewItem(eventArgs.Source, eventArgs.Position, newItem.width, newItem.height, lootItem.ItemID,
-                  stack, eventArgs.Broadcast, lootItem.PrefixID);
-
-#if DEBUG
-                Console.WriteLine("LootControl - OnNPCLootDrop: DayDrop ItemID:{0} - Amount:{1} - (X:{2}, Y:{3})",
-                  lootItem.ItemID, stack, eventArgs.Position.X, eventArgs.Position.Y);
-#endif
-
-                eventArgs.Handled = true;
-              }
-            }
-
-        if (outTable.NPCLootEntries.ContainsKey(WorldState.Normal))
-          foreach (var lootItem in outTable.NPCLootEntries[WorldState.Normal])
-            if (!lootItem.AlwaysDrop || lootItem.DoubleDrop)
-            {
-              var randomChance = random.Next(0, 100);
-              if (lootItem.DropChance > randomChance)
-              {
-                var newItem = TShock.Utils.GetItemById(lootItem.ItemID);
-                var stack = random.Next(lootItem.Min_Stack, lootItem.Max_Stack + 1);
-                Item.NewItem(eventArgs.Source, eventArgs.Position, newItem.width, newItem.height, lootItem.ItemID,
-                  stack, eventArgs.Broadcast, lootItem.PrefixID);
-
-#if DEBUG
-                Console.WriteLine("LootControl - OnNPCLootDrop: NormalDrop ItemID:{0} - Amount:{1} - (X:{2}, Y:{3})",
-                  lootItem.ItemID, stack, eventArgs.Position.X, eventArgs.Position.Y);
-#endif
-
-                eventArgs.Handled = true;
-              }
-            }
-
-        if (!outTable.ShouldDropDefaultLoot) eventArgs.Handled = true;
+        if (!outTable.ShouldDropDefaultLoot)
+        {
+          eventArgs.Handled = true;
+        }
       }
     }
 

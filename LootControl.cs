@@ -110,9 +110,15 @@ namespace LootControl
     // If successful returns stack size dropped else returns -1
     private void DropLoot(Loot pLootItem, NpcKilledEventArgs eventArgs, WorldState pState)
     {
+#if DEBUG
+      Console.WriteLine(
+        "LootControl - OnNPCKilled: ExpertMode: {0} - MasterMode: {1} - LootClassic: {2} - LootExpert: {3} - LootMaster: {4}",
+        Main.expertMode, Main.masterMode, pLootItem.DropInClassic, pLootItem.DropInExpert, pLootItem.DropInMaster);
+#endif
+      
       if (!Main.expertMode && !Main.masterMode && pLootItem.DropInClassic ||
           Main.expertMode && !Main.masterMode && pLootItem.DropInExpert ||
-          !Main.expertMode && Main.masterMode && pLootItem.DropInMaster)
+          Main.expertMode && Main.masterMode && pLootItem.DropInMaster)
       {
         Random random = new Random();
         int randomChance = random.Next(0, 100);
